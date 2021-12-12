@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using MongoDB.Bson;
@@ -255,6 +256,62 @@ namespace Curso_Mongodb_Net
         #endregion
 
         #region Programa Recuperando do Banco MongoDb
+        // static void Main(string[] args)
+        // {
+        //     Task T = MainSync(args);
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // static async Task MainSync(string[] args)
+        // {
+
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     Console.WriteLine("Imprimindo lista de Livros");
+
+        //     var listaLivros = await conexaoBiblioteca.Livros.Find(new BsonDocument()).ToListAsync();
+
+        //     foreach (var doc in listaLivros)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine("Fim da lista");
+
+        // }
+        #endregion
+
+        #region Programa Recuperando "BsomDocument" com criterio do Banco MongoDb
+        // static void Main(string[] args)
+        // {
+        //     Task T = MainSync(args);
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // static async Task MainSync(string[] args)
+        // {
+
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     Console.WriteLine("Imprimindo lista de Livros");
+
+        //     // var filtro = new BsonDocument{
+        //     //     {"Assunto","c#"}
+        //     // };
+        //     var listaLivros = await conexaoBiblioteca.Livros.Find( new BsonDocument()).ToListAsync();
+
+        //     foreach (var doc in listaLivros)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine("Fim da lista");
+
+        // }
+        #endregion
+
+
+        #region Programa Recuperando a partir de uma class do Banco MongoDb
         static void Main(string[] args)
         {
             Task T = MainSync(args);
@@ -266,21 +323,73 @@ namespace Curso_Mongodb_Net
 
             var conexaoBiblioteca = new conectandoMongoDB();
 
-            Console.WriteLine("Imprimindo lista de Livros");
+            Console.WriteLine(" ");
+            Console.WriteLine(" -------------------- Condição simples------------------------ ");
+            Console.WriteLine(" ");
 
-            var listaLivros = await conexaoBiblioteca.Livros.Find(new BsonDocument()).ToListAsync();
+            var filtro = new BsonDocument{
+                {"Assunto","c#"}
+            };
+            var listaLivros = await conexaoBiblioteca.Livros.Find(filtro).ToListAsync();
 
             foreach (var doc in listaLivros)
             {
                 Console.WriteLine(doc.ToJson<Livro>());
             }
 
+            Console.WriteLine(" ");
+            Console.WriteLine(" ------------------- Utilizando recursos do Bsom (Eq = Igual)------------------------- ");
+            Console.WriteLine(" ");
+
+
+            var construtor = Builders<Livro>.Filter;
+            var condicao = construtor.Eq(x => x.Titulo, "Titulo");
+            var ClassLivros = await conexaoBiblioteca.Livros.Find(condicao).ToListAsync();
+
+            foreach (var doc in ClassLivros)
+            {
+                Console.WriteLine(doc.ToJson<Livro>());
+            }
+
+
+            Console.WriteLine(" ");
+            Console.WriteLine(" ------------------ Utilizando recursos do Bsom (Gte = Igual ou Maio com 2 condiçoes)-------------------------- ");
+            Console.WriteLine(" ");
+
+
+
+            var collection = Builders<Livro>.Filter;
+            var filter = construtor.Gte(x => x.Ano, 1992) & construtor.Gte(x => x.Paginas, 29);
+            var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+
+            foreach (var doc in retorno)
+            {
+                Console.WriteLine(doc.ToJson<Livro>());
+            }
+
+            Console.WriteLine(" ");
+            Console.WriteLine(" ------------------ Recuperando a partir de uma sublista do mongoDb-------------------------- ");
+            Console.WriteLine(" ");
+
+
+
+            var col = Builders<Livro>.Filter;
+            //AnyEq  propriedade que busca dentro de uma Array/Lista
+            var fil = construtor.AnyEq(x => x.Assunto, "csharp");
+            var ret = await conexaoBiblioteca.Livros.Find(fil).ToListAsync();
+
+            foreach (var doc in ret)
+            {
+                Console.WriteLine(doc.ToJson<Livro>());
+            }
+
+            Console.WriteLine(" ");
+            Console.WriteLine(" -------------------------------------------- ");
+            Console.WriteLine(" ");
             Console.WriteLine("Fim da lista");
 
         }
         #endregion
-
-
 
 
     }
