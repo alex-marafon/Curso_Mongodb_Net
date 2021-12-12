@@ -152,8 +152,109 @@ namespace Curso_Mongodb_Net
         // }
         #endregion
 
-
         #region Programa Otimizando conexao com Banco MongoDb
+        // static void Main(string[] args)
+        // {
+        //     Task T = MainSync(args);
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // static async Task MainSync(string[] args)
+        // {
+
+        //     Livro livro = new Livro();
+        //     livro.Titulo = "Star Wars Legends";
+        //     livro.Autor = "Timothy Zahn";
+        //     livro.Ano = 2010;
+        //     livro.Paginas = 245;
+
+        //     List<string> listaAssunto = new List<string>();
+        //     listaAssunto.Add("Ficção Cientifica");
+        //     listaAssunto.Add("Ação");
+
+        //     livro.Assunto = listaAssunto;
+
+        //     //Utilizando a class de conexão
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     //Salvando o documento no banco
+        //     await conexaoBiblioteca.Livros.InsertOneAsync(livro);
+
+        //     Console.WriteLine("Documento Salvo com sucesso");
+
+        // }
+        #endregion
+
+        #region Programa Class Livro Banco MongoDb
+        //         static void Main(string[] args)
+        //         {
+        //             Task T = MainSync(args);
+        //             Console.WriteLine("Testando comando");
+        //             Console.ReadLine();
+        //         }
+        //         static async Task MainSync(string[] args)
+        //         {
+
+        //             Livro livro = new Livro();
+        //             livro.Titulo = "Star Wars Legends";
+        //             livro.Autor = "Timothy Zahn";
+        //             livro.Ano = 2010;
+        //             livro.Paginas = 245;
+
+        //             List<string> listaAssunto = new List<string>();
+        //             listaAssunto.Add("Ficção Cientifica");
+        //             listaAssunto.Add("Ação");
+
+        //             livro.Assunto = listaAssunto;
+
+        //             //Utilizando a class de conexão
+        //             var conexaoBiblioteca = new conectandoMongoDB();
+
+        //             //Salvando o documento no banco
+        //             await conexaoBiblioteca.Livros.InsertOneAsync(livro);
+
+        //             Console.WriteLine("Documento Salvo com sucesso");
+
+        //         }
+        #endregion
+
+        #region Programa Gravando em massa Banco MongoDb
+        // static void Main(string[] args)
+        // {
+        //     Task T = MainSync(args);
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // static async Task MainSync(string[] args)
+        // {
+
+
+
+        //     //Utilizando a class de conexão
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     List<Livro> Livros = new List<Livro>();
+
+
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo do filme", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo 2", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo 3", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo 4", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo 5 filme", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo do filme 6", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo do filme 7", "Alex Marafon", 1992, 29, "TI, dev, programador"));
+        //     Livros.Add(ValoresLivro.incluiValoresLivros("Titulo do filme 8", "Alex Marafon", 1992, 29, "TI, dev, programador, full stack, fodao em lynq, c#,csharp, empreendedor"));
+
+
+        //     await conexaoBiblioteca.Livros.InsertManyAsync(Livros);
+
+        //     Console.WriteLine("Documento Salvo com sucesso");
+
+        // }
+        #endregion
+
+        #region Programa Recuperando do Banco MongoDb
         static void Main(string[] args)
         {
             Task T = MainSync(args);
@@ -163,28 +264,24 @@ namespace Curso_Mongodb_Net
         static async Task MainSync(string[] args)
         {
 
-            Livro livro = new Livro();
-            livro.Titulo = "Star Wars Legends";
-            livro.Autor = "Timothy Zahn";
-            livro.Ano = 2010;
-            livro.Paginas = 245;
-
-            List<string> listaAssunto = new List<string>();
-            listaAssunto.Add("Ficção Cientifica");
-            listaAssunto.Add("Ação");
-
-            livro.Assunto = listaAssunto;
-
-            //Utilizando a class de conexão
             var conexaoBiblioteca = new conectandoMongoDB();
 
-            //Salvando o documento no banco
-            await conexaoBiblioteca.Livros.InsertOneAsync(livro);
+            Console.WriteLine("Imprimindo lista de Livros");
 
-            Console.WriteLine("Documento Salvo com sucesso");
+            var listaLivros = await conexaoBiblioteca.Livros.Find(new BsonDocument()).ToListAsync();
+
+            foreach (var doc in listaLivros)
+            {
+                Console.WriteLine(doc.ToJson<Livro>());
+            }
+
+            Console.WriteLine("Fim da lista");
 
         }
         #endregion
+
+
+
 
     }
 }

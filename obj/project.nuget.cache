@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5I6dGP9sC+uOHPRiSgCfafKqRFkcQvyxRLZN+Uyj0QhjeDkJ6P7VRXEN3MyG4iXukRgv8MaEmd9i6bDzpYJlBQ==",
+  "dgSpecHash": "yiKFBiSgMNOIDKrLxWRdgAOQy/EB/nF8jLQvlPcuFGhAg+rtixfOb5gh4xzvQhVFhQ3u9vrlQJzuhSkdZQ1UjQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Asus\\Desktop\\CursoMongoAlura\\Curso_Mongodb_Net\\Curso_Mongodb_Net.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,8 @@
     "C:\\Users\\Asus\\.nuget\\packages\\sharpcompress\\0.23.0\\sharpcompress.0.23.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
-    "C:\\Users\\Asus\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512"
+    "C:\\Users\\Asus\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512"
   ],
   "logs": []
 }
