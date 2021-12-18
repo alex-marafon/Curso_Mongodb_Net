@@ -16,6 +16,7 @@ namespace Curso_Mongodb_Net.Model
         public const string NOME_DA_BASE = "Biblioteca";
         public const string NOME_DA_COLECAO = "Livros";
 
+
         private readonly IMongoClient _cliente;
         private readonly IMongoDatabase _BaseDeDados;
 

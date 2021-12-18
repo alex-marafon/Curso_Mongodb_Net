@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Reflection.Metadata;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
@@ -310,87 +311,323 @@ namespace Curso_Mongodb_Net
         // }
         #endregion
 
-
         #region Programa Recuperando a partir de uma class do Banco MongoDb
-        static void Main(string[] args)
-        {
-            Task T = MainSync(args);
-            Console.WriteLine("Testando comando");
-            Console.ReadLine();
-        }
-        static async Task MainSync(string[] args)
-        {
+        // static void Main(string[] args)
+        // {
+        //     Task T = MainSync(args);
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // static async Task MainSync(string[] args)
+        // {
 
-            var conexaoBiblioteca = new conectandoMongoDB();
+        //     var conexaoBiblioteca = new conectandoMongoDB();
 
-            Console.WriteLine(" ");
-            Console.WriteLine(" -------------------- Condição simples------------------------ ");
-            Console.WriteLine(" ");
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" -------------------- Condição simples------------------------ ");
+        //     Console.WriteLine(" ");
 
-            var filtro = new BsonDocument{
-                {"Assunto","c#"}
-            };
-            var listaLivros = await conexaoBiblioteca.Livros.Find(filtro).ToListAsync();
+        //     var filtro = new BsonDocument{
+        //         {"Assunto","c#"}
+        //     };
+        //     var listaLivros = await conexaoBiblioteca.Livros.Find(filtro).ToListAsync();
 
-            foreach (var doc in listaLivros)
-            {
-                Console.WriteLine(doc.ToJson<Livro>());
-            }
+        //     foreach (var doc in listaLivros)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
 
-            Console.WriteLine(" ");
-            Console.WriteLine(" ------------------- Utilizando recursos do Bsom (Eq = Igual)------------------------- ");
-            Console.WriteLine(" ");
-
-
-            var construtor = Builders<Livro>.Filter;
-            var condicao = construtor.Eq(x => x.Titulo, "Titulo");
-            var ClassLivros = await conexaoBiblioteca.Livros.Find(condicao).ToListAsync();
-
-            foreach (var doc in ClassLivros)
-            {
-                Console.WriteLine(doc.ToJson<Livro>());
-            }
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" ------------------- Utilizando recursos do Bsom (Eq = Igual)------------------------- ");
+        //     Console.WriteLine(" ");
 
 
-            Console.WriteLine(" ");
-            Console.WriteLine(" ------------------ Utilizando recursos do Bsom (Gte = Igual ou Maio com 2 condiçoes)-------------------------- ");
-            Console.WriteLine(" ");
+        //     var construtor = Builders<Livro>.Filter;
+        //     var condicao = construtor.Eq(x => x.Titulo, "Titulo");
+        //     var ClassLivros = await conexaoBiblioteca.Livros.Find(condicao).ToListAsync();
+
+        //     foreach (var doc in ClassLivros)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
 
 
-
-            var collection = Builders<Livro>.Filter;
-            var filter = construtor.Gte(x => x.Ano, 1992) & construtor.Gte(x => x.Paginas, 29);
-            var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
-
-            foreach (var doc in retorno)
-            {
-                Console.WriteLine(doc.ToJson<Livro>());
-            }
-
-            Console.WriteLine(" ");
-            Console.WriteLine(" ------------------ Recuperando a partir de uma sublista do mongoDb-------------------------- ");
-            Console.WriteLine(" ");
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" ------------------ Utilizando recursos do Bsom (Gte = Igual ou Maio com 2 condiçoes)-------------------------- ");
+        //     Console.WriteLine(" ");
 
 
 
-            var col = Builders<Livro>.Filter;
-            //AnyEq  propriedade que busca dentro de uma Array/Lista
-            var fil = construtor.AnyEq(x => x.Assunto, "csharp");
-            var ret = await conexaoBiblioteca.Livros.Find(fil).ToListAsync();
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = construtor.Gte(x => x.Ano, 1992) & collection.Gte(x => x.Paginas, 29);
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
 
-            foreach (var doc in ret)
-            {
-                Console.WriteLine(doc.ToJson<Livro>());
-            }
+        //     foreach (var doc in retorno)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
 
-            Console.WriteLine(" ");
-            Console.WriteLine(" -------------------------------------------- ");
-            Console.WriteLine(" ");
-            Console.WriteLine("Fim da lista");
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" ------------------ Recuperando a partir de uma sublista do mongoDb-------------------------- ");
+        //     Console.WriteLine(" ");
 
-        }
+
+
+        //     var col = Builders<Livro>.Filter;
+        //     //AnyEq  propriedade que busca dentro de uma Array/Lista
+        //     var fil = construtor.AnyEq(x => x.Assunto, "csharp");
+        //     var ret = await conexaoBiblioteca.Livros.Find(fil).ToListAsync();
+
+        //     foreach (var doc in ret)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" -------------------------------------------- ");
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine("Fim da lista");
+
+        // }
         #endregion
 
+        #region Programa Recuperando a partir de uma class do Banco MongoDb
+        // static void Main(string[] args)
+        // {
+        //     //chamada inicial do codigo
+        //     //chama um metodo assincrono "mainSync"
+        //     //que executa a rotina de consulta ao banco de dados.
+        //     Task T = MainSync(args);
 
+
+        //     Console.WriteLine("Testando comando");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task MainSync(string[] args)
+        // {
+        //     //chama o metodo responsavel pela conexao ao banco de dados
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+        //     //consulta por uma class especifica (no nosso caso a class Livro)
+        //     var collection = Builders<Livro>.Filter;
+        //     //executa o filtro e acordo com a regra de negocio
+        //     var filter = collection.Gte(x => x.Ano, 1992) & collection.Gte(x => x.Paginas, 29);
+        //     //retorna o valor da consulta
+        //     //Repare que apos a consulta antes de retornar o objeto temos varios recursos, um deles e o sortBy 
+        //     //que ordeda por uma condição, no nosso caso vai ordenar por titulo.
+        //     //Sortby = Ordenado por...
+        //     //Limit = limita a quantidade de objetos retornados.
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).SortBy(x =>x.Titulo).Limit(2).ToListAsync();
+
+        //     //no nosso caso cria uma lista de livros no console
+        //     foreach (var doc in retorno)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine(" -------------------------------------------- ");
+        //     Console.WriteLine(" ");
+        //     Console.WriteLine("Fim da lista");
+
+        // }
+        #endregion
+
+        #region Limpando o codigo, Utilizando o busca por Class e filtro Linq devolvendo uma lista que é impressa no console.
+        // static void Main(string[] args)
+        // {
+        //     Task T = funcaoGenericaAsync();
+        //     Console.WriteLine("Função assincrona acima, foi iniciada e o programa continuaou.");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task funcaoGenericaAsync()
+        // {
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = collection.Gte(x => x.Ano, 1992) & collection.Gte(x => x.Paginas, 25);
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).SortBy(x =>x.Titulo).Limit(2).ToListAsync();
+
+        //     foreach (var doc in retorno)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine("Fim da função");
+        // }
+        #endregion
+
+        #region Alterando documento Utilizando o Filter.
+        // static void Main(string[] args)
+        // {
+        //     Task T = funcaoGenericaAsync();
+        //     Console.WriteLine("Função assincrona acima, foi iniciada e o programa continuaou.");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task funcaoGenericaAsync()
+        // {
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = collection.Eq(x => x.Titulo, "Titulo do filme 8");
+
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+        //     foreach (var doc in retorno)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //         //Incerindo novos valores
+        //         doc.Ano = 2000;
+        //         doc.Paginas = 900;
+        //         //Salvando novos valores no banco mongoDb
+        //         await conexaoBiblioteca.Livros.ReplaceOneAsync(filter, doc);
+        //     }
+
+        //     Console.WriteLine(" -------------- Registro atualizado --------------");
+
+        //     // Listando o registor que foi alterado
+        //     var collectio = Builders<Livro>.Filter;
+        //     var filte = collection.Eq(x => x.Titulo, "Titulo do filme 8");
+
+        //     var retorn = await conexaoBiblioteca.Livros.Find(filte).ToListAsync();
+        //     foreach (var doc in retorn)
+        //     {
+        //         Console.WriteLine(doc.ToJson<Livro>());
+        //     }
+
+        //     Console.WriteLine("Fim da função");
+        // }
+        #endregion
+
+        #region Alterando documento Utilizando o Update.
+        // static void Main(string[] args)
+        // {
+        //     Task T = funcaoGenericaAsync();
+        //     Console.WriteLine("Função assincrona acima, foi iniciada e o programa continuaou.");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task funcaoGenericaAsync()
+        // {
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = collection.Eq(x => x.Titulo, "Titulo do filme 8");
+
+        //     //Controi o objeto no formtao Livro
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+
+        //     Console.WriteLine(retorno.ToJson());
+
+        //     // Contrutor de registro "Update" diferente do utilizado anteriormente que erra "Filter"
+        //     // O que muda e que cada um libera recursos diferentes
+        //     var collectio = Builders<Livro>.Update;
+        //     var filte = collectio.Set(x => x.Ano, 1999);
+        //     //Injetado o objeto antigo e o ojeto novo.
+        //     await conexaoBiblioteca.Livros.UpdateOneAsync(filter, filte);
+
+
+        //     Console.WriteLine("---------------");
+        //     Console.WriteLine("Atualização realizada");
+        //     Console.WriteLine("---------------");
+
+        //     //Recuperando registro atualizado do banco.
+        //     var collecti = Builders<Livro>.Filter;
+        //     var filt = collecti.Eq(x => x.Titulo, "Titulo do filme 8");
+        //     var reto = await conexaoBiblioteca.Livros.Find(filt).ToListAsync();
+        //     Console.WriteLine(reto.ToJson());
+
+        // }
+        #endregion
+
+        #region Alterando documento Utilizando o Update em Lote.
+        // static void Main(string[] args)
+        // {
+        //     Task T = funcaoGenericaAsync();
+        //     Console.WriteLine("Função assincrona acima, foi iniciada e o programa continuaou.");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task funcaoGenericaAsync()
+        // {
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     //Recupera todos os registros que atendem a condição do filtro
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = collection.Eq(x => x.Paginas, 35);
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+        //     foreach (var item in retorno)
+        //     {
+        //         Console.WriteLine(item.ToJson());
+        //     }
+
+        //     // Contrutor de registro "Update".
+        //     var collectio = Builders<Livro>.Update;
+        //     var filte = collectio.Set(x => x.Paginas, 29);
+        //     //Gravando os registros atualizados, baseado na chamada anterior do Filter que retornou todos os registros que atendiam a condição
+        //     await conexaoBiblioteca.Livros.UpdateManyAsync(filter, filte);
+
+
+        //     Console.WriteLine("---------------");
+        //     Console.WriteLine("Atualização realizada");
+        //     Console.WriteLine("---------------");
+
+        //     //Recuperando registro atualizado do banco e imprimiu no console.
+        //     var collecti = Builders<Livro>.Filter;
+        //     var filt = collecti.Eq(x => x.Paginas, 29);
+        //     var reto = await conexaoBiblioteca.Livros.Find(filt).ToListAsync();
+
+        //     foreach (var ite in reto)
+        //     {
+        //         Console.WriteLine(ite.ToJson());
+        //     }
+
+        // }
+        #endregion
+
+        #region Deletando documento em Lote.
+        // static void Main(string[] args)
+        // {
+        //     Task T = funcaoGenericaAsync();
+        //     Console.WriteLine("Função assincrona acima, foi iniciada e o programa continuaou.");
+        //     Console.ReadLine();
+        // }
+        // //Metodo assincrono chamado na inicialização do sistema.
+        // static async Task funcaoGenericaAsync()
+        // {
+        //     var conexaoBiblioteca = new conectandoMongoDB();
+
+        //     //Recupera todos os registros que atendem a condição do filtro
+        //     var collection = Builders<Livro>.Filter;
+        //     var filter = collection.Eq(x => x.Paginas, 15);
+        //     var retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+        //     foreach (var item in retorno)
+        //     {
+        //         Console.WriteLine(item.ToJson());
+        //     }
+
+        //     // Deletando os registros recuperados pelo Filter, consulta a cima.
+
+        //     await conexaoBiblioteca.Livros.DeleteManyAsync(filter);
+
+        //     Console.WriteLine("---------------");
+        //     Console.WriteLine("Recuperando dados do banco");
+        //     Console.WriteLine("---------------");
+
+        //     //Recuperando registro atualizado do banco e imprimiu no console.
+        //     collection = Builders<Livro>.Filter;
+        //     filter = collection.Eq(x => x.Paginas, 15);
+        //     retorno = await conexaoBiblioteca.Livros.Find(filter).ToListAsync();
+
+        //     foreach (var ite in retorno)
+        //     {
+        //         Console.WriteLine(ite.ToJson());
+        //     }
+
+        // }
+        #endregion
+
+       
     }
 }
